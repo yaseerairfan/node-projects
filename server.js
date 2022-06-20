@@ -4,6 +4,10 @@ const dotenv=require('dotenv');
 
 //Route files
 const routes=require('./routes/index.js');
+// const  logger=require('./middleware/logger');
+
+//3rd party midleware
+const morgan=require('morgan')
 // const Fs = require('fs')  
 // const Path = require('path')
 
@@ -15,6 +19,11 @@ const routes=require('./routes/index.js');
 dotenv.config({path:'./config/config.env'});
 
 const app =express();
+//dev logging middleware
+if(process.env.NODE_ENV=='development'){
+    app.use(morgan('dev'));
+}
+// app.use(logger);
 // app.get('/',(req,res)=>{
 //     res.status(200).json({'success':true,'message':`Delete bootcamp ${req.params.id}`});
 //   })

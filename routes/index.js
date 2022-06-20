@@ -1,6 +1,13 @@
 const express = require("express");
 const router = express.Router();
 
+const {
+  getBootcamp,
+  getBootcamps,
+  createBootcamp,
+  updateBootcamp,
+  delBootcamp,
+} = require("../controllers/bootcamp");
 /* GET home page. */
 // router.get('/', function(req, res, next) {
 //   res.render('index', { title: 'Express' });
@@ -12,23 +19,13 @@ const router = express.Router();
 //   next(); // make sure we go to the next routes and don't stop here
 // });
 //custom Routes
-router.get('/',(req,res)=>{
-  res.status(200).json({'success':true,'message':'Display all bootcamps'});
-})
-router.get('/:id',(req,res)=>{
-  res.status(200).json({'success':true,'message':`Display bootcamp ${req.params.id}`});
-})
+router.route("/").get(getBootcamps).post(createBootcamp);
+router.route("/:id").get(getBootcamp).put(updateBootcamp).delete(delBootcamp);
+router.get("/:id", (req, res) => {});
 
-router.post('/',(req,res)=>{
-  res.status(200).json({'success':true,'message':'Create new bootcamp'});
-})
+router.post("/", (req, res) => {});
 
-router.put('/:id',(req,res)=>{
-  res.status(200).json({'success':true,'message':`Update bootcamp ${req.params.id}`});
-})
-// router.delete('/:id',(req,res)=>{
-//   res.status(200).json({'success':true,'message':`Delete bootcamp ${req.params.id}`});
-// })
-
+router.put("/:id", (req, res) => {});
+router.delete("/:id", (req, res) => {});
 
 module.exports = router;
