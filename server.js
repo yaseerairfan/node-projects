@@ -1,10 +1,28 @@
-const express=require('express');
+const express=require("express");
 const dotenv=require('dotenv');
-const http = require("http");
+
+
+//Route files
+const routes=require('./routes/index.js');
+// const Fs = require('fs')  
+// const Path = require('path')
+
+// const path = Path.join(__dirname, "./routes/index.js")
+
+// console.log(Fs.existsSync(path)); 
 
 //Load env variables
 dotenv.config({path:'./config/config.env'});
+
 const app =express();
+// app.get('/',(req,res)=>{
+//     res.status(200).json({'success':true,'message':`Delete bootcamp ${req.params.id}`});
+//   })
+app.use("",require("./routes/index.js"));
+
+
+
+
 const PORT=process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on  ${process.env.NODE_ENV} mode on port ${PORT}`));
 // const { buffer } = require("stream/consumers");
