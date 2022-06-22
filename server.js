@@ -1,13 +1,15 @@
 const express=require("express");
 const dotenv=require('dotenv');
+const connectdb=require('./config/db');
 
 
-//Route files
-const routes=require('./routes/index.js');
 // const  logger=require('./middleware/logger');
 
 //3rd party midleware
 const morgan=require('morgan')
+
+//Route files
+const routes=require('./routes/index.js');
 // const Fs = require('fs')  
 // const Path = require('path')
 
@@ -17,8 +19,10 @@ const morgan=require('morgan')
 
 //Load env variables
 dotenv.config({path:'./config/config.env'});
-
+connectdb();
 const app =express();
+
+app.use(express.json());
 //dev logging middleware
 if(process.env.NODE_ENV=='development'){
     app.use(morgan('dev'));
@@ -33,7 +37,17 @@ app.use("",require("./routes/index.js"));
 
 
 const PORT=process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on  ${process.env.NODE_ENV} mode on port ${PORT}`));
+const server=app.listen(PORT, () => console.log(`Server running on  ${process.env.NODE_ENV} mode on port ${PORT}`));
+// handle unhandled promise rejections
+process.on('unhandledRejection',(err,promise)=>{
+    console.log(`Error: ${err.message}`);
+    //Close server and quit process
+    server.close(()=>{
+        process.exit(1);
+    })
+})
+
+
 // const { buffer } = require("stream/consumers");
 // const server = http.createServer((req, res) => {
 //   const { headers, url, method } = req;
